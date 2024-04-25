@@ -21,6 +21,7 @@ public func ==(a: Type, b: Type) -> Bool { a.isEqual(b) }
 
 public func !=(a: Type, b: Type) -> Bool { !(a == b) }
 
+/// A type that can be compared for equality.
 public protocol _EquatableType : Type, Equatable {}
 
 extension _EquatableType {

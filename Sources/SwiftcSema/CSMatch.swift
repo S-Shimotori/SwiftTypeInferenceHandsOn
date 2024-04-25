@@ -192,7 +192,14 @@ extension ConstraintSystem {
         return .solved
     }
     
-    // ref: matchDeepEqualityTypes at CSSimplify.cpp
+    /// Solves a given constraint between two types.
+    /// - Parameters:
+    ///   - leftType: A type in the left hand side.
+    ///   - rightType: A type in the right hand side.
+    ///   - options: Match options.
+    /// - Returns: The result of solving.
+    ///
+    /// ref: matchDeepEqualityTypes at [CSSimplify.cpp]( https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp ).
     internal func matchDeepEqualityTypes(left leftType: Type,
                                          right rightType: Type,
                                          options: MatchOptions) -> SolveResult

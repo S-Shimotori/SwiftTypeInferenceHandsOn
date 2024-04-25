@@ -7,6 +7,10 @@ public final class ConstraintSystem {
     public enum SolveResult {
         case solved
         case failure
+        /// The constraint has not been resolved yet.
+        ///
+        /// ambiguousは、 「今は解けない/後で解く」の 意味。  \
+        /// [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=66)
         case ambiguous
     }
     

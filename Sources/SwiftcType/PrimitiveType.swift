@@ -1,6 +1,8 @@
 import SwiftcBasic
 
+/// A primitive type.
 public struct PrimitiveType : _EquatableType {
+    /// The name of the type.
     public var name: String
     
     public init(name: String) {
