@@ -120,10 +120,12 @@ public final class ConstraintSystem {
                         typeConversionRelations: typeConversionRelations)
     }
     
-    /**
-     型に含まれる型変数を再帰的に置換した型を返す。
-     固定型の割当がない場合は代表型変数に置換する。
-     */
+    /// A type that is recursively substituted for a type variable in a given type.
+    /// - Parameters:
+    ///   - type: A type to simplify.
+    /// - Returns: A fixed type, or a representative type if the type variable has no assigned fixed type.
+    ///
+    /// 型に含まれる型変数を再帰的に置換した型を返す。固定型の割当がない場合は代表型変数に置換する。
     public func simplify(type: Type) -> Type {
         type.simplify(bindings: bindings)
     }

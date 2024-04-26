@@ -166,7 +166,22 @@ extension ConstraintSystem {
         return .solved
     }
     
-    // ref: matchFunctionTypes at CSSimplify.cpp
+    /// Solves a given constraint between two functions.
+    /// - Parameters:
+    ///   - kind:
+    ///   - leftType: A function in the left hand side.
+    ///   - rightType: A function in the right hand side.
+    ///   - options: Match options.
+    /// - Returns: The result of solving.
+    ///
+    /// ref: matchFunctionTypes at [CSSimplify.cpp]( https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp ).
+    ///
+    /// > 関数型同士の割当:
+    /// > `(type1) -> type2` \<bind> `(type3) -> type4` >> \
+    /// > `type1` \<bind> `type3` \
+    /// > `type2` \<bind> `type4` \
+    /// > このような、新たに細かい規則に分解する場合を簡約規則（simplify）と呼ぶ。 \
+    /// > [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=34)
     private func matchFunctionTypes(kind: Constraint.MatchKind,
                                     left leftType: FunctionType,
                                     right rightType: FunctionType,
