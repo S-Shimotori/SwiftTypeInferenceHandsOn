@@ -45,6 +45,19 @@ public struct TypeVariableBindings {
         }
         
         // <Q03 hint="understand data structure" />
+        // FIXME: Use correct terms
+        let representativeType = type1 < type2 ? type1 : type2
+        let sourceType = type1 < type2 ? type2 : type1
+        var newBindings = [TypeVariable: Binding]()
+        newBindings[sourceType] = .transfer(representativeType)
+        for (type, element) in map {
+            guard case let .transfer(typeVariable) = element,
+                  typeVariable.isEqual(sourceType) else {
+                continue
+            }
+            newBindings[type] = .transfer(representativeType)
+        }
+        map.merge(newBindings) { $1 }
     }
     
     public mutating func assign(variable: TypeVariable,
