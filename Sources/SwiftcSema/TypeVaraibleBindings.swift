@@ -21,6 +21,9 @@ public struct TypeVariableBindings {
         }
     }
     
+    /// - Note: 型推論（type inference）とは、型（type）に型変数（type variable）を加えた上で、
+    ///         全ての制約（constraint）を満たす型の置換表（substitution map）を求めることである。 \
+    ///         [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=20)
     public private(set) var map: [TypeVariable: Binding] = [:]
     
     public init() {}
@@ -32,6 +35,15 @@ public struct TypeVariableBindings {
         map[variable] = binding
     }
     
+    /// Merges two given type variables into the one whose ID is smaller.
+    ///
+    /// > 型変数と型変数の割当:
+    /// > `typevar1` \<bind> `typevar2` >> \
+    /// > `merge(typevar1, typevar2)` \
+    /// > `typevar2` の置換先を `typevar1` にする。 \
+    /// > 代表型変数のグループが統合される。 \
+    /// > 便宜上、若い番号に代表を寄せていくことにする。 \
+    /// > [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=33)
     public mutating func merge(type1: TypeVariable,
                                type2: TypeVariable)
     {
@@ -72,6 +84,10 @@ public struct TypeVariableBindings {
 }
 
 extension TypeVariable {
+    /// A boolean value that indicates whether this type value itself is representative or not.
+    ///
+    /// ある型変数の置換を辿って最後に到達する型変数を、その型変数の代表型変数（representative）と呼ぶ。 \
+    /// [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=33)
     public func isRepresentative(bindings: TypeVariableBindings) -> Bool {
         representative(bindings: bindings) == self
     }
@@ -86,6 +102,8 @@ extension TypeVariable {
         }
     }
     
+    /// - Note: 型変数ではない型を固定型（fixed type）と呼ぶことにする。  \
+    ///         [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=21)
     public func fixedType(bindings: TypeVariableBindings) -> Type? {
         switch bindings.binding(for: self) {
         case .free:

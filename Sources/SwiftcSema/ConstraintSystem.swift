@@ -134,7 +134,13 @@ public final class ConstraintSystem {
         typeVariable.fixedOrRepresentative(bindings: bindings)
     }
     
-    // ref: mergeEquivalenceClasses at ConstraintSystem.h
+    /// Merges two given type variables as equivalent.
+    /// - Parameters:
+    ///   - type1:
+    ///   - type2:
+    ///   - doesActivate: If `true`, constraints associated with given type variables will be activated after the merge.
+    ///
+    /// ref: mergeEquivalenceClasses at [ConstraintSystem.h](https://github.com/apple/swift/blob/main/include/swift/Sema/ConstraintSystem.h)
     public func mergeEquivalence(type1: TypeVariable,
                                  type2: TypeVariable,
                                  doesActivate: Bool = true)
