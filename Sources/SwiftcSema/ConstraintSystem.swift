@@ -152,7 +152,13 @@ public final class ConstraintSystem {
         }
     }
     
-    // ref: assignFixedType at ConstraintSystem.cpp
+    /// Assigns a given fixed type to a given type variable.
+    /// - Parameters:
+    ///   - typeVariable:
+    ///   - fixedType:
+    ///   - doesActivate: if `true`, constraints associated with a given type variables will be activated after assignment.
+    ///
+    /// ref: assignFixedType at [ConstraintSystem.cpp](https://github.com/apple/swift/blob/main/lib/Sema/ConstraintSystem.cpp)
     public func assignFixedType(for typeVariable: TypeVariable,
                                 _ fixedType: Type,
                                 doesActivate: Bool = true)
@@ -254,7 +260,9 @@ public final class ConstraintSystem {
         }
     }
     
-    // ref: addTypeVariableConstraintsToWorkList in ConstraintSystem.cpp
+    /// Activates constraints involved with a given type variable.
+    ///
+    /// ref: addTypeVariableConstraintsToWorkList in [ConstraintSystem.cpp](https://github.com/apple/swift/blob/main/lib/Sema/ConstraintSystem.cpp)
     public func activateConstraints(involving typeVariable: TypeVariable) {
         let cs = gatherConstraints(involving: typeVariable)
         for c in cs {
