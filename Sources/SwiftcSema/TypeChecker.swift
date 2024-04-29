@@ -2,6 +2,7 @@ import SwiftcBasic
 import SwiftcType
 import SwiftcAST
 
+/// A type checker for a source file.
 public final class TypeChecker {
     private let source: SourceFile
     
@@ -9,6 +10,8 @@ public final class TypeChecker {
         self.source = source
     }
     
+    /// Performs type check for statements in the given source file.
+    /// - Throws:
     public func typeCheck() throws {
         for index in 0..<source.statements.count {
             source.statements[index] = try typeCheckStatement(source.statements[index],
@@ -32,7 +35,18 @@ public final class TypeChecker {
         return stmt
     }
     
-    // ref: typeCheckBinding at TypeCheckConstraints.cpp
+    /// Performs type check for a given variable declaration.
+    /// - Parameters:
+    ///   - vd: A variable declaration.
+    ///   - context:
+    /// - Returns: The variable declaration, which has the result of type check.
+    /// - Throws:
+    ///
+    /// ref: typeCheckBinding at [TypeCheckConstraints.cpp](https://github.com/apple/swift/blob/main/lib/Sema/TypeCheckConstraints.cpp)
+    ///
+    /// `vardecl` >> \
+    /// `self.type` \<bind> `init` \
+    /// [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=41)
     public func typeCheckVariableDecl(_ vd: VariableDecl,
                                       context: DeclContext) throws -> ASTNode {
         if var ie = vd.initializer {
