@@ -1,5 +1,6 @@
 import SwiftcBasic
 
+/// A visitor that works for each AST node.
 public protocol ASTVisitor : VisitorProtocol where VisitTarget == ASTNode {
     associatedtype VisitResult
     

@@ -2,6 +2,7 @@ import SwiftcBasic
 import SwiftcType
 import SwiftcAST
 
+/// A visitor that generates constraints from visited AST nodes.
 public final class ConstraintGenerator : ASTVisitor {
     public typealias VisitResult = Type
     
@@ -48,6 +49,12 @@ public final class ConstraintGenerator : ASTVisitor {
         return tv
     }
     
+    /// - Returns: A function type that represents the closure.
+    ///
+    /// `closure` >> \
+    /// `self.type.return` \<bind> `body` \
+    /// クロージャ本文が1文の時だけ。複数文の時は別の問題として後で処理される。 \
+    /// [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=42)
     public func visit(_ node: ClosureExpr) throws -> Type {
         let paramTy = try cts.astTypeOrThrow(for: node.parameter)
         
