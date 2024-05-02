@@ -45,6 +45,17 @@ public final class ConstraintGenerator : ASTVisitor {
         let tv = cts.createTypeVariable()
         
         // <Q07 hint="call addConstraint" />
+        switch callee {
+        case let functionType as FunctionType:
+            cts.addConstraint(kind: .bind, left: functionType.result, right: tv)
+            cts.addConstraint(kind: .conversion, left: functionType.parameter, right: arg)
+        case _ as TypeVariable:
+            let param = cts.createTypeVariable()
+            cts.addConstraint(kind: .bind, left: FunctionType(parameter: param, result: tv), right: callee)
+            cts.addConstraint(kind: .conversion, left: arg, right: param)
+        default:
+            unimplemented()
+        }
         
         return tv
     }
