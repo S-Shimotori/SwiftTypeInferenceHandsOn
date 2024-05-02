@@ -80,7 +80,20 @@ extension ConstraintSystem {
         }
     }
     
-    // ref: simplifyApplicableFnConstraint at CSSimplify.cpp
+    /// - Parameters:
+    ///   - lfn: A function type that represents a function application with a type of argument and a type of output.
+    ///   - right: A function type or a type variable representing an expected type of the function application.
+    ///   - options:
+    /// - Returns:
+    ///
+    /// ref: simplifyApplicableFnConstraint at [CSSimplify.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp)
+    ///
+    /// \<app fn>解決の変更 \
+    /// `(A) -> B` \<app fn> `(C) -> D` >> \
+    /// `A` \<conv> `C` \
+    /// `B` \<bind> `D` \
+    /// 引数に渡すときに暗黙変換を認める。 \
+    /// [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=76)
     public func simplifyApplicableFunctionConstraint(left lfn: FunctionType,
                                                      right: Type,
                                                      options: MatchOptions) -> SolveResult
