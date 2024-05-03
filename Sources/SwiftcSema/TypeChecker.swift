@@ -71,6 +71,9 @@ public final class TypeChecker {
                     vd.type = varTy
 
                     // <Q13 hint="see visitCallExpr" />
+                    if let initializer = vd.initializer {
+                        return try solution.coerce(expr: initializer, to: varTy)
+                    }
                     return expr
             })
                 
