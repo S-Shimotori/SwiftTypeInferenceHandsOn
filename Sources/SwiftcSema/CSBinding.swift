@@ -1,7 +1,7 @@
 import SwiftcType
 
 extension ConstraintSystem {
-    // ref: determineBestBindings at CSBindings.cpp
+    /// ref: determineBestBindings at [CSBindings.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSBindings.cpp)
     public func determineBestBindings() -> PotentialBindings? {
         var bestOrNone: PotentialBindings? = nil
         var cache: Dictionary<TypeVariable, PotentialBindings> = [:]

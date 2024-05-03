@@ -12,6 +12,7 @@ extension ConstraintSystem {
         public var constraints: [ConstraintEntry]
     }
     
+    /// Returns the current state of step.
     public func storeStepState() -> StepState {
         return StepState(bindings: bindings,
                          astTypes: astTypes,
@@ -21,6 +22,7 @@ extension ConstraintSystem {
                          constraints: constraints)
     }
     
+    /// Loads a given state of step.
     public func loadStepState(_ s: StepState) {
         self.bindings = s.bindings
         self.astTypes = s.astTypes
@@ -30,7 +32,9 @@ extension ConstraintSystem {
         self.constraints = s.constraints
     }
     
-    // ref: ComponentStep at CSStep.cpp
+    /// `ComponentStep` represents a set of type variables and related constraints which could be solved independently.
+    /// It's further simplified into "binding" steps which attempt type variable and disjunction choices. \
+    /// ref: ComponentStep at [CSStep.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSStep.cpp)
     public struct ComponentStep {
         public let work: SolveWork
         private let cts: ConstraintSystem
@@ -189,6 +193,10 @@ extension ConstraintSystem {
             return isAnySolved
         }
         
+        /// Attempts to apply a given constraint to the constraint system.
+        /// - Parameters:
+        ///   - choice:
+        /// - Returns: A boolean value indicating whether the constraint system successfully simplified constraints.
         private func attempt(choice: Constraint) -> Bool {
             pr.goToLineHead()
             pr.println("attempt: \(choice)")

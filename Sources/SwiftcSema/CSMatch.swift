@@ -2,7 +2,14 @@ import SwiftcBasic
 import SwiftcType
 
 extension ConstraintSystem {
-    // ref: matchTypes at CSSimplify.cpp
+    /// - Parameters:
+    ///   - kind: A kind of constraint between the given two types.
+    ///   - leftType: A type under a constraint.
+    ///   - rightType: A type that appears in a constraint.
+    ///   - options:
+    /// - Returns:
+    ///
+    /// ref: matchTypes at [CSSimplify.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp)
     public func matchTypes(kind: Constraint.MatchKind,
                            left leftType: Type,
                            right rightType: Type,

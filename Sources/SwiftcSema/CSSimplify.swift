@@ -137,10 +137,10 @@ extension ConstraintSystem {
         return .solved
     }
     
-    /**
-     現在活性化している制約を可能な限り簡約化する事を繰り返す。
-     */
-    // ref: simplify at CSSolver.cpp
+    /// 現在活性化している制約を可能な限り簡約化する事を繰り返す。
+    /// - Returns: `false` if there is a constraint that this constraint system cannot solve.
+    ///
+    /// ref: simplify at [CSSolver.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSSolver.cpp)
     public func simplify() -> Bool {
         while true {
             if isFailed {

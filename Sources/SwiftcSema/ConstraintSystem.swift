@@ -70,13 +70,19 @@ public final class ConstraintSystem {
 
     public private(set) var typeVariables: [TypeVariable] = []
     
+    /// - SeeAlso: ``StepState``
     public internal(set) var bindings: TypeVariableBindings = TypeVariableBindings()
+    /// - SeeAlso: ``StepState``
     public internal(set) var astTypes: [AnyASTNode: Type] = [:]
+    /// - SeeAlso: ``StepState``
     public internal(set) var overloadSelections: [AnyASTNode: OverloadSelection] = [:]
+    /// - SeeAlso: ``StepState``
     public internal(set) var typeConversionRelations: [TypeConversionRelation] = []
     
+    /// - SeeAlso: ``StepState``
     public internal(set) var failedConstraint: ConstraintEntry?
     
+    /// - SeeAlso: ``StepState``
     public internal(set) var constraints: [ConstraintEntry] = []
     
     public let printer: Printer
