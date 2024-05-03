@@ -71,6 +71,12 @@ extension ConstraintSystem {
             // consider priority for bindings and disjunctions
             
             // <Q10 hint="invoke substeps" />
+            if let disjunction = disjunctionOrNone {
+                return DisjunctionStep(work: work, disjunction: disjunction).run()
+            }
+            if let potentialBindings = bestBindingsOrNone {
+                return TypeVariableStep(work: work, bindings: potentialBindings).run()
+            }
             
             if cts.hasFreeTypeVariables() {
                 return false
