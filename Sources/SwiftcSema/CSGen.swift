@@ -41,11 +41,9 @@ public final class ConstraintGenerator : ASTVisitor {
     /// - Returns: A type variable that refers to a type of the expression.
     ///
     /// `apply` >> \
-    /// `self.type` \<bind> `callee.return` \
-    /// `callee.parameter` \<bind> `argument` \
-    /// 呼び出し式の型は、呼び出し先の返り値の型 \
-    /// 呼び出し先の引数の型は、呼び出しの引数の型 \
-    /// [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=28)
+    /// `(arg) -> self.type` \<app fn> `callee` \
+    /// `callee` が関数型をしているとは限らないので、いったん\<app fn>制約として表現して後回しにする。 \
+    /// [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=61)
     public func visit(_ node: CallExpr) throws -> Type {
         let callee = try cts.astTypeOrThrow(for: node.callee)
         let arg = try cts.astTypeOrThrow(for: node.argument)
@@ -53,17 +51,7 @@ public final class ConstraintGenerator : ASTVisitor {
         let tv = cts.createTypeVariable()
         
         // <Q07 hint="call addConstraint" />
-        switch callee {
-        case let functionType as FunctionType:
-            cts.addConstraint(kind: .bind, left: functionType.result, right: tv)
-            cts.addConstraint(kind: .conversion, left: functionType.parameter, right: arg)
-        case _ as TypeVariable:
-            let param = cts.createTypeVariable()
-            cts.addConstraint(kind: .bind, left: FunctionType(parameter: param, result: tv), right: callee)
-            cts.addConstraint(kind: .conversion, left: arg, right: param)
-        default:
-            unimplemented()
-        }
+        cts.addConstraint(kind: .applicableFunction, left: FunctionType(parameter: arg, result: tv), right: callee)
         
         return tv
     }
