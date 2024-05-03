@@ -178,6 +178,10 @@ public final class ConstraintSystem {
         }
     }
     
+    /// Type of a given AST node under this constraint system.
+    /// - Parameters:
+    ///   - node:
+    /// - Returns: Type of the node, or `nil` if it is unknown.
     public func astType(for node: ASTNode) -> Type? {
         if let type = astTypes[node.eraseToAnyASTNode()] {
             return type

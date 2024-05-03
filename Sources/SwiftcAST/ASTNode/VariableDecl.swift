@@ -1,12 +1,15 @@
 import SwiftcBasic
 import SwiftcType
 
+/// A declaration of variable.
 public final class VariableDecl : ValueDecl {
     public unowned let source: SourceFile
     public let sourceRange: SourceRange
     public weak var parentContext: DeclContext?
     public var name: String
+    /// An expression that gives an initial value or object to this variable.
     public var initializer: Expr?
+    /// An explicit type annotation for this variable.
     public var typeAnnotation: Type?
     public var type: Type?
     public init(source: SourceFile,

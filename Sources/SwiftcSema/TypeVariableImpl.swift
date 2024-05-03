@@ -13,12 +13,14 @@ public final class TypeVariable : _TypeVariable
     
     public override var id: Int { _id }
     
+    /// Returns a Boolean value indicating whether a given type contains this type or not.
     public func occurs(in type: Type) -> Bool {
         type.typeVariables.contains(self)
     }
 }
 
 extension Type {
+    /// A set of type variables in this type.
     public var typeVariables: Set<TypeVariable> {
         var ts: Set<TypeVariable> = []
         _ = find { (type) in

@@ -30,6 +30,7 @@ public final class ConstraintGenerator : ASTVisitor {
         throw MessageError("function")
     }
     
+    /// - Returns: A type annotated in the declaration, or a new type variable if there is no annotation.
     public func visit(_ node: VariableDecl) throws -> Type {
         if let ta = node.typeAnnotation {
             return ta
@@ -88,6 +89,7 @@ public final class ConstraintGenerator : ASTVisitor {
         throw MessageError("unresolved")
     }
     
+    /// - Returns: A type variable that refers to a type of the declaration.
     public func visit(_ node: DeclRefExpr) throws -> Type {
         let tv = cts.createTypeVariable()
         
@@ -110,6 +112,7 @@ public final class ConstraintGenerator : ASTVisitor {
         return tv
     }
     
+    /// - Returns: An integer type.
     public func visit(_ node: IntegerLiteralExpr) throws -> Type {
         return PrimitiveType.int
     }

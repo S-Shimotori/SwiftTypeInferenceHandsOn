@@ -19,7 +19,14 @@ public final class TypeChecker {
         }
     }
     
-    // ref: typeCheckStmt in TypeCheckStmt.cpp
+    /// Performs type check for a given statement.
+    /// - Parameters:
+    ///   - stmt: An AST node that represents a statement.
+    ///   - context:
+    /// - Returns: The statement, which has the result of type check.
+    /// - Throws:
+    ///
+    /// ref: typeCheckStmt in [TypeCheckStmt.cpp](https://github.com/apple/swift/blob/main/lib/Sema/TypeCheckStmt.cpp)
     public func typeCheckStatement(_ stmt: ASTNode,
                                    context: DeclContext) throws -> ASTNode {
         switch stmt {
@@ -87,7 +94,15 @@ public final class TypeChecker {
         return vd
     }
     
-    // ref: typeCheckExpression at TypeCheckConstraints.cpp
+    /// Performs type check for a given expression.
+    /// - Parameters:
+    ///   - expr:
+    ///   - context:
+    ///   - callbacks:
+    /// - Returns:
+    /// - Throws:
+    ///
+    /// ref: typeCheckExpression at [TypeCheckConstraints.cpp](https://github.com/apple/swift/blob/main/lib/Sema/TypeCheckConstraints.cpp)
     public func typeCheckExpr(_ expr: Expr,
                               context: DeclContext,
                               callbacks: ExprTypeCheckCallbacks?) throws -> Expr {

@@ -73,10 +73,12 @@ extension Type {
         }
     }
     
-    /**
-     型を巡回してpredを満たすものがあればtrueを返す。
-     predは親が先に呼び出される。
-     */
+    /// Returns a Boolean value indicating whether this type contains one that satisfies a given predicate.
+    /// - Parameters:
+    ///   - pred: A closure that takes a type as its argument and returns a Boolean value that indicates whether the passed type represents a match.
+    ///
+    /// 型を巡回して `pred` を満たすものがあれば `true` を返す。
+    /// `pred` は親が先に呼び出される。
     public func find(_ pred: (Type) -> Bool) -> Bool {
         func preWalk(type: Type) -> PreWalkResult<Type> {
             if pred(type) {

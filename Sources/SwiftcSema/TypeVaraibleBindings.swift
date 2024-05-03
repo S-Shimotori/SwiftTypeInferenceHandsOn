@@ -74,6 +74,15 @@ public struct TypeVariableBindings {
         map.merge(newBindings) { $1 }
     }
     
+    /// Adds a binding to assign a given fixed type to a type variable.
+    /// - Parameters:
+    ///   - variable:
+    ///   - type:
+    ///
+    /// 型変数と固定型の割当: \
+    /// `typevar` \<bind> `fixed` >> `assign(typevar, fixed)` \
+    /// `typevar` の置換先を `fixed` にする。 \
+    /// [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=32)
     public mutating func assign(variable: TypeVariable,
                                 type: Type)
     {

@@ -2,6 +2,7 @@ import SwiftcBasic
 import SwiftcType
 import SwiftcAST
 
+/// A visitor that applies a type inference solution to visited AST nodes.
 public final class ConstraintSolutionApplier : ASTVisitor {
     public typealias VisitResult = ASTNode
     
@@ -35,12 +36,14 @@ public final class ConstraintSolutionApplier : ASTVisitor {
         node
     }
     
+    /// - Returns: The variable declaration node, which received type information.
     public func visit(_ node: VariableDecl) throws -> ASTNode {
         let ty = try solution.fixedTypeOrThrow(for: node)
         node.type = ty
         return node
     }
     
+    /// - Returns: The call expression node, which received type information.
     public func visit(_ node: CallExpr) throws -> ASTNode {
         if let calleeTy = node.callee.type as? FunctionType {
             let paramTy = calleeTy.parameter
@@ -51,6 +54,7 @@ public final class ConstraintSolutionApplier : ASTVisitor {
         throw MessageError("unconsidered")
     }
     
+    /// - Returns: The closure expression node, which received type information.
     public func visit(_ node: ClosureExpr) throws -> ASTNode {
         _ = try applyFixedType(expr: node)
         
@@ -93,7 +97,7 @@ public final class ConstraintSolutionApplier : ASTVisitor {
 }
 
 extension ConstraintSystem.Solution {
-    // ref: applySolution at CSApply.cpp
+    /// ref: applySolution at [CSApply.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSApply.cpp)
     public func apply(to expr: Expr,
                       context: DeclContext,
                       constraintSystem: ConstraintSystem) throws -> Expr
