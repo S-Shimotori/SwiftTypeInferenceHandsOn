@@ -5,7 +5,9 @@ import SwiftcBasic
 import SwiftcType
 
 public final class Parser {
+    /// A raw string of Swift source code in a source file.
     public let sourceString: String
+    /// A file name of source code.
     public let fileName: String?
     
     public var source: SourceFile!
@@ -31,6 +33,9 @@ public final class Parser {
         try f()
     }
     
+    /// Parses the given source code.
+    /// - Returns: An AST node that represents the source file.
+    /// - Throws:
     public func parse() throws -> SourceFile {
         let syn = SwiftParser.Parser.parse(source: sourceString)
 

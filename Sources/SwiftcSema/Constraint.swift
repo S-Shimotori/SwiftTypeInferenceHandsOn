@@ -3,11 +3,42 @@ import SwiftcType
 import SwiftcAST
 
 public enum Constraint : CustomStringConvertible, Hashable {
+    /// Describes the kind of constraint placed on one or more types. \
+    /// [swift/include/swift/Sema/Constraint.h](https://github.com/apple/swift/blob/main/include/swift/Sema/Constraint.h)
     public enum Kind : Hashable {
+        /// The two types must be bound to the same type. This is the only truly symmetric constraint. \
+        /// [swift/include/swift/Sema/Constraint.h](https://github.com/apple/swift/blob/main/include/swift/Sema/Constraint.h)
         case bind
+        /// The first type is convertible to the second type. \
+        /// [swift/include/swift/Sema/Constraint.h](https://github.com/apple/swift/blob/main/include/swift/Sema/Constraint.h)
+        ///
+        /// `A` \<conversion> `B` \
+        /// `A` が `B` に変換できる \
+        /// [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=74)
         case conversion
+        /// Both types are function types.
+        /// The first function type's input is the value being passed to the function and its output is a type variable that describes the output.
+        /// The second function type is expected to become a function type.
+        /// Note, we do not require the function type attributes to match. \
+        /// [swift/include/swift/Sema/Constraint.h](https://github.com/apple/swift/blob/main/include/swift/Sema/Constraint.h)
+        ///
+        /// `(A) -> B` \<applicable function> `C` \
+        /// `C` は `A` を引数に呼び出し、Bを返す型。 \
+        /// [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=56)
         case applicableFunction
+        /// Binds the left-hand type to a particular overload choice. \
+        /// [swift/include/swift/Sema/Constraint.h](https://github.com/apple/swift/blob/main/include/swift/Sema/Constraint.h)
+        ///
+        /// `A` \<bind overload> `B` \
+        /// `A` のオーバーロードを解決して型 `B` とする。 \
+        /// [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=56)
         case bindOverload
+        /// A disjunction constraint that specifies that one or more of the stored constraints must hold.
+        /// [swift/include/swift/Sema/Constraint.h](https://github.com/apple/swift/blob/main/include/swift/Sema/Constraint.h)
+        ///
+        /// `disjunction(c1, c2, ...)` \
+        /// 制約 `c1` , `c2` , ...のどれかを満たす。 \
+        /// [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=56)
         case disjunction
         
         public func toMatchKind() -> MatchKind? {

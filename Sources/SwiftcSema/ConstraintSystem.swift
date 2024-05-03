@@ -79,6 +79,7 @@ public final class ConstraintSystem {
     /// - SeeAlso: ``StepState``
     public internal(set) var typeConversionRelations: [TypeConversionRelation] = []
     
+    /// A constraint that is failed to solve.
     /// - SeeAlso: ``StepState``
     public internal(set) var failedConstraint: ConstraintEntry?
     
@@ -128,7 +129,7 @@ public final class ConstraintSystem {
     
     /// A type that is recursively substituted for a type variable in a given type.
     /// - Parameters:
-    ///   - type: A type to simplify.
+    ///   - type: A type that contains type variables.
     /// - Returns: A fixed type, or a representative type if the type variable has no assigned fixed type.
     ///
     /// 型に含まれる型変数を再帰的に置換した型を返す。固定型の割当がない場合は代表型変数に置換する。
@@ -142,8 +143,8 @@ public final class ConstraintSystem {
     
     /// Merges two given type variables as equivalent.
     /// - Parameters:
-    ///   - type1:
-    ///   - type2:
+    ///   - type1: A type variable.
+    ///   - type2: Another type variable.
     ///   - doesActivate: If `true`, constraints associated with given type variables will be activated after the merge.
     ///
     /// ref: mergeEquivalenceClasses at [ConstraintSystem.h](https://github.com/apple/swift/blob/main/include/swift/Sema/ConstraintSystem.h)
@@ -208,7 +209,13 @@ public final class ConstraintSystem {
         astTypes[key] = type
     }
     
-    // ref: addConstraint in CSSimplify.cpp
+    /// Adds and solves a new constraint between two given types.
+    /// - Parameters:
+    ///   - kind: A kind of constraint between the given two types.
+    ///   - leftType: A type under a constraint.
+    ///   - rightType: A type that appears in a constraint.
+    ///
+    /// ref: addConstraint in [CSSimplify.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp)
     public func addConstraint(kind: Constraint.Kind,
                               left: Type, right: Type)
     {

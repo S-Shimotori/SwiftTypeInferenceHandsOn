@@ -1,5 +1,6 @@
 import SwiftcType
 
+/// A set of bindings applied to type variables.
 public struct TypeVariableBindings {
     /**
      自分が代表の場合free, fixed、代表転送を持つ場合はtransfer
@@ -25,9 +26,10 @@ public struct TypeVariableBindings {
     ///         全ての制約（constraint）を満たす型の置換表（substitution map）を求めることである。 \
     ///         [Swiftの型推論アルゴリズム(1)](https://speakerdeck.com/omochi/swiftfalsexing-tui-lun-arugorizumu-1?slide=20)
     public private(set) var map: [TypeVariable: Binding] = [:]
-    
+
     public init() {}
     
+    /// Returns a binding applied to a given type variable, or ``Binding/free`` if the type variable is not registered to ``map`` .
     public func binding(for variable: TypeVariable) -> Binding {
         map[variable] ?? .free
     }
@@ -126,6 +128,10 @@ extension TypeVariable {
         }
     }
     
+    /// Returns type variables that are equivalent to this one under given bindings.
+    /// - Parameters:
+    ///   - bindings: A substitution map.
+    /// - Returns: A set of type variables. It may includes this type itself.
     public func equivalentTypeVariables(bindings: TypeVariableBindings) -> Set<TypeVariable> {
         var ret = Set<TypeVariable>()
         for (tv, b) in bindings.map {
