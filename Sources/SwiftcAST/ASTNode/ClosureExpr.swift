@@ -1,6 +1,12 @@
 import SwiftcBasic
 import SwiftcType
 
+/// ```
+/// closure {
+///     body[]
+/// }
+/// ```
+/// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
 public final class ClosureExpr : Expr, DeclContext {
     public unowned let source: SourceFile
     public let sourceRange: SourceRange

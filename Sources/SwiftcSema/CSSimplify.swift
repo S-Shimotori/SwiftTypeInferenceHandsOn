@@ -49,6 +49,15 @@ extension ConstraintSystem {
         }
     }
     
+    /// ```
+    /// type1 <conv VToO> type2 >>
+    ///     type1 <conv> type2.wrapped
+    /// ```
+    /// ```
+    /// type1 <conv OToO> type2 >>
+    ///     type1.wrapped <conv> type2.wrapped
+    /// ```
+    /// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
     private func _simplify(kind: Constraint.MatchKind,
                            left leftType: Type,
                            right rightType: Type,
@@ -95,6 +104,17 @@ extension ConstraintSystem {
     /// - Returns:
     ///
     /// ref: simplifyApplicableFnConstraint at [CSSimplify.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp)
+    ///
+    /// ```
+    /// (arg) -> ret <appfn> callee >>
+    ///     if callee is typevar:
+    ///         *ambiguous
+    ///     if callee is function:
+    ///         arg <conv> callee.param
+    ///         ret <bind> callee.result
+    ///     *failure
+    /// ```
+    /// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
     ///
     /// \<app fn>解決の変更 \
     /// `(A) -> B` \<app fn> `(C) -> D` >> \

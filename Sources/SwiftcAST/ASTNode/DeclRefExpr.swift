@@ -1,6 +1,12 @@
 import SwiftcBasic
 import SwiftcType
 
+/// ```
+/// declref {
+///     name
+/// }
+/// ```
+/// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
 public final class DeclRefExpr : Expr {
     public unowned let source: SourceFile
     public let sourceRange: SourceRange

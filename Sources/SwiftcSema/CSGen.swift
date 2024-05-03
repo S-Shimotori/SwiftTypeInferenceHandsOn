@@ -31,6 +31,11 @@ public final class ConstraintGenerator : ASTVisitor {
     }
     
     /// - Returns: A type annotated in the declaration, or a new type variable if there is no annotation.
+    ///
+    /// ```
+    /// init <conv> var
+    /// ```
+    /// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
     public func visit(_ node: VariableDecl) throws -> Type {
         if let ta = node.typeAnnotation {
             return ta
@@ -40,6 +45,11 @@ public final class ConstraintGenerator : ASTVisitor {
     }
     
     /// - Returns: A type variable that refers to a type of the expression.
+    ///
+    /// ```
+    /// (argument) -> self <appfn> callee
+    /// ```
+    /// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
     ///
     /// `apply` >> \
     /// `(arg) -> self.type` \<app fn> `callee` \
@@ -58,6 +68,12 @@ public final class ConstraintGenerator : ASTVisitor {
     }
     
     /// - Returns: A function type that represents the closure.
+    ///
+    /// ```
+    /// body.last <conv> result
+    ///     where body.count == 1
+    /// ```
+    /// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
     ///
     /// `closure` >> \
     /// `self.type.return` \<bind> `body` \
@@ -90,6 +106,11 @@ public final class ConstraintGenerator : ASTVisitor {
     }
     
     /// - Returns: A type variable that refers to a type of the declaration.
+    ///
+    /// ```
+    /// self <bind> target
+    /// ```
+    /// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
     public func visit(_ node: DeclRefExpr) throws -> Type {
         let tv = cts.createTypeVariable()
         
@@ -100,6 +121,14 @@ public final class ConstraintGenerator : ASTVisitor {
         return tv
     }
     
+    /// ```
+    /// disjunction(
+    ///     self <bind> targets[0],
+    ///     self <bind> targets[1],
+    ///     ...
+    /// )
+    /// ```
+    /// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
     public func visit(_ node: OverloadedDeclRefExpr) throws -> Type {
         let tv = cts.createTypeVariable()
         

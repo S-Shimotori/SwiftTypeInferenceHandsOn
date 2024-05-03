@@ -2,6 +2,14 @@ import SwiftcBasic
 import SwiftcType
 
 /// A declaration of variable.
+///
+/// ```
+/// vardecl {
+///     var_name
+///     init
+/// }
+/// ```
+/// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
 public final class VariableDecl : ValueDecl {
     public unowned let source: SourceFile
     public let sourceRange: SourceRange

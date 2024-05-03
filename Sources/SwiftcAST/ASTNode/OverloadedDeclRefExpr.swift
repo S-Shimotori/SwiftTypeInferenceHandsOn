@@ -1,6 +1,12 @@
 import SwiftcBasic
 import SwiftcType
 
+/// ```
+/// overloaded_declref {
+///     targets[]
+/// }
+/// ```
+/// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
 public final class OverloadedDeclRefExpr : Expr {
     public unowned let source: SourceFile
     public let sourceRange: SourceRange

@@ -10,6 +10,16 @@ extension ConstraintSystem {
     /// - Returns:
     ///
     /// ref: matchTypes at [CSSimplify.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp)
+    ///
+    /// ```
+    /// fixed <bind> typevar >>
+    ///     assign(typevar, fixed)
+    /// ```
+    /// ```
+    /// typevar1 <bind> typevar2 >>
+    ///     merge(typevar1, typevar2)
+    /// ```
+    /// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
     public func matchTypes(kind: Constraint.MatchKind,
                            left leftType: Type,
                            right rightType: Type,
@@ -97,6 +107,19 @@ extension ConstraintSystem {
     ///   - rightType: A type that appears in a constraint.
     ///   - options:
     /// - Returns:
+    ///
+    /// ```
+    /// type1 <conv> type2
+    ///     where type2 is more optional than type1 >>
+    ///     type1 <conv VToO> type2
+    /// ```
+    /// ```
+    /// type1 <conv> type2
+    ///     where type1 and type2 are optional >>
+    ///     type1 <conv DEQ> type2
+    ///     type1 <conv OToO> type2
+    /// ```
+    /// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
     ///
     /// ref: matchTypes at [CSSimplify.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp)
     private func matchFixedTypes(kind: Constraint.MatchKind,
@@ -190,6 +213,18 @@ extension ConstraintSystem {
     ///
     /// ref: matchFunctionTypes at [CSSimplify.cpp]( https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp ).
     ///
+    /// ```
+    /// (type1) -> type2 <bind> (type3) -> type4 >>
+    ///     type1 <bind> type3
+    ///     type2 <bind> type4
+    /// ```
+    /// ```
+    /// (type1) -> type2 <conv> (type3) -> type4 >>
+    /// type3 <conv> type1 // contravariance
+    /// type2 <conv> type4 // covariance
+    /// ```
+    /// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
+    ///
     /// > 関数型同士の割当:
     /// > `(type1) -> type2` \<bind> `(type3) -> type4` >> \
     /// > `type1` \<bind> `type3` \
@@ -233,6 +268,20 @@ extension ConstraintSystem {
     /// - Returns: The result of solving.
     ///
     /// ref: matchDeepEqualityTypes at [CSSimplify.cpp]( https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp ).
+    ///
+    /// ```
+    /// primitive1 <bind> primitive2 >>
+    ///     if primitive1 == primitive2:
+    ///         *solved
+    ///     *failure
+    /// ```
+    /// ```
+    /// primitive1 <conv> primitive2 >>
+    ///     if primitive1 == primitive2:
+    ///         *solved
+    ///     *failure
+    /// ```
+    /// [規則集](https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/master/Docs/rules.md)
     internal func matchDeepEqualityTypes(left leftType: Type,
                                          right rightType: Type,
                                          options: MatchOptions) -> SolveResult
