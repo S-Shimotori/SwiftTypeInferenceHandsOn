@@ -3,6 +3,12 @@ import SwiftcType
 import SwiftcAST
 
 /// A type checker for a source file.
+///
+/// ソース全体を型チェックする。 \
+/// [型推論ハンズオン](https://speakerdeck.com/omochi/xing-tui-lun-hanzuon?slide=9)
+///
+/// ``TypeChecker`` が構文に応じて ``ConstraintSystem`` を起動する \
+/// [型推論ハンズオン](https://speakerdeck.com/omochi/xing-tui-lun-hanzuon?slide=10)
 public final class TypeChecker {
     private let source: SourceFile
     

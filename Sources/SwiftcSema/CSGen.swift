@@ -3,6 +3,9 @@ import SwiftcType
 import SwiftcAST
 
 /// A visitor that generates constraints from visited AST nodes.
+///
+/// 制約の生成 \
+/// [型推論ハンズオン](https://speakerdeck.com/omochi/xing-tui-lun-hanzuon?slide=9)
 public final class ConstraintGenerator : ASTVisitor {
     public typealias VisitResult = Type
     

@@ -3,6 +3,9 @@ import SwiftcType
 import SwiftcAST
 
 /// A visitor that applies a type inference solution to visited AST nodes.
+///
+/// 型推論結果によるASTの変換 \
+/// [型推論ハンズオン](https://speakerdeck.com/omochi/xing-tui-lun-hanzuon?slide=9)
 public final class ConstraintSolutionApplier : ASTVisitor {
     public typealias VisitResult = ASTNode
     

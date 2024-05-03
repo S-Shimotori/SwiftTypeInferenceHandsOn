@@ -2,6 +2,8 @@ import SwiftcBasic
 import SwiftcType
 import SwiftcAST
 
+/// 制約 \
+/// [型推論ハンズオン](https://speakerdeck.com/omochi/xing-tui-lun-hanzuon?slide=9)
 public enum Constraint : CustomStringConvertible, Hashable {
     /// Describes the kind of constraint placed on one or more types. \
     /// [swift/include/swift/Sema/Constraint.h](https://github.com/apple/swift/blob/main/include/swift/Sema/Constraint.h)

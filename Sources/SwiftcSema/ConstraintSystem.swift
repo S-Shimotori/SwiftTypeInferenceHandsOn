@@ -3,6 +3,17 @@ import SwiftcBasic
 import SwiftcType
 import SwiftcAST
 
+/// 制約を解くモジュール \
+/// [型推論ハンズオン](https://speakerdeck.com/omochi/xing-tui-lun-hanzuon?slide=9)
+///
+/// ``ConstraintSystem`` （CS）は1つの式を解くモジュール \
+/// [型推論ハンズオン](https://speakerdeck.com/omochi/xing-tui-lun-hanzuon?slide=10)
+///
+/// 例：代入文 \
+/// 代入分の右辺は式なのでCSで解ける。 \
+/// 代入の概念や左辺は文の領域なのでCSの対象外。 \
+/// CSにデリゲートがあり、 ``TypeChecker`` が代入文の扱いを注入する。（``TypeChecker/typeCheckVariableDecl(_:context:)``） \
+/// [型推論ハンズオン](https://speakerdeck.com/omochi/xing-tui-lun-hanzuon?slide=11)
 public final class ConstraintSystem {
     public enum SolveResult {
         case solved
