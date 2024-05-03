@@ -138,6 +138,10 @@ extension ConstraintSystem {
             return isAnySolved
         }
         
+        /// Attempts to apply a given binding to the constraint system.
+        /// - Parameters:
+        ///   - binding:
+        /// - Returns: A boolean value indicating whether the constraint system successfully simplified constraints.
         private func attempt(binding: PotentialBinding) -> Bool {
             pr.goToLineHead()
             pr.println("attempt: \(binding)")
