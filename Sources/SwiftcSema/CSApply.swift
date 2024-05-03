@@ -104,7 +104,19 @@ extension ConstraintSystem.Solution {
         }
     }
     
-    // ref: coerceToType at CSApply.cpp
+    /// - Parameters:
+    ///   - expr: An expression node to apply type coercion.
+    ///   - toTy: What type the given expression is coerced to be.
+    /// - Throws:
+    /// - Returns: The expression node that is applied type coercion to.
+    ///
+    /// ref: coerceToType at [CSApply.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSApply.cpp)
+    ///
+    /// > Type coercion:
+    /// > Type coercion is the automatic or implicit conversion of values from one data type to another (such as strings to numbers).
+    /// > Type conversion is similar to type coercion because they both convert values from one data type to another with one key difference
+    /// > — type coercion is implicit whereas type conversion can be either implicit or explicit. \
+    /// > [Type coercion - MDN Web Docs Glossary](https://developer.mozilla.org/en-US/docs/Glossary/Type_coercion)
     public func coerce(expr: Expr, to toTy: Type) throws -> Expr {
         let fromTy = try expr.typeOrThrow()
         if fromTy == toTy {

@@ -1,6 +1,8 @@
 import SwiftcBasic
 import SwiftcType
 
+/// `InjectIntoOptionalExpr` - The implicit conversion from `T` to `T?` . \
+/// [swift/include/swift/AST/Expr.h](https://github.com/apple/swift/blob/main/include/swift/AST/Expr.h)
 public final class InjectIntoOptionalExpr : Expr {
     public var source: SourceFile { subExpr.source }
     public var sourceRange: SourceRange { subExpr.sourceRange }
