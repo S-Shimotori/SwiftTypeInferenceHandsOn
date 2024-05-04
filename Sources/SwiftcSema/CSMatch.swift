@@ -296,6 +296,14 @@ extension ConstraintSystem {
         }
         
         if let leftType = leftType as? OptionalType,
+           let rightType = rightType as? OptionalType {
+            return matchTypes(kind: .conversion,
+                              left: leftType.wrapped,
+                              right: rightType.wrapped,
+                              options: subOptions)
+        }
+        
+        if let leftType = leftType as? OptionalType,
         let rightType = rightType as? OptionalType
         {
             return matchTypes(kind: .bind,
