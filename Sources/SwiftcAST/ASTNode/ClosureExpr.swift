@@ -12,8 +12,10 @@ public final class ClosureExpr : Expr, DeclContext {
     public let sourceRange: SourceRange
     public weak var parentContext: DeclContext?
     public var parameter: VariableDecl
+    /// An explicitly annotated return type of this closure expression.
     public var returnType: Type?
     public var body: [ASTNode] = []
+    /// The type of this closure is derived from a constraint solution.
     public var type: Type?
     
     public init(source: SourceFile,

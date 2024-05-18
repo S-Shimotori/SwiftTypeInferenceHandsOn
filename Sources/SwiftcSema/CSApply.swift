@@ -62,10 +62,16 @@ public final class ConstraintSolutionApplier : ASTVisitor {
         _ = try applyFixedType(expr: node)
         
         // <Q14 hint="see visitCallExpr" />
-        if let returnType = node.returnType,
-           let lastExpr = node.body.last as? Expr {
-            node.body[node.body.endIndex - 1] = try solution.coerce(expr: lastExpr, to: returnType)
+        guard let resultType = (node.type as? FunctionType)?.result else {
+            throw MessageError("invalid")
         }
+        guard !node.body.isEmpty,
+              let lastExpr = node.body.popLast() as? Expr else {
+            // This type inference system assumes that a closure has only one expression.
+            // https://github.com/omochi/SwiftTypeInferenceHandsOn/blob/f743348eea6eaa4cde3c0625ab0324eed4ce0a93/Sources/SwiftcAST/Parser.swift#L191-L193
+            throw MessageError("closure statements num must be 1")
+        }
+        node.body.append(try solution.coerce(expr: lastExpr, to: resultType))
         
         return node
     }
