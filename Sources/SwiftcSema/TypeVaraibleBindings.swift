@@ -62,16 +62,9 @@ public struct TypeVariableBindings {
         // FIXME: Use correct terms
         let representativeType = type1 < type2 ? type1 : type2
         let sourceType = type1 < type2 ? type2 : type1
-        var newBindings = [TypeVariable: Binding]()
-        newBindings[sourceType] = .transfer(representativeType)
-        for (type, element) in map {
-            guard case let .transfer(typeVariable) = element,
-                  typeVariable.isEqual(sourceType) else {
-                continue
-            }
-            newBindings[type] = .transfer(representativeType)
+        for type in sourceType.equivalentTypeVariables(bindings: self) {
+            map[type] = .transfer(representativeType)
         }
-        map.merge(newBindings) { $1 }
     }
     
     /// Adds a binding to assign a given fixed type to a type variable.
@@ -140,7 +133,7 @@ extension TypeVariable {
     /// Returns type variables that are equivalent to this one under given bindings.
     /// - Parameters:
     ///   - bindings: A substitution map.
-    /// - Returns: A set of type variables. It may includes this type itself.
+    /// - Returns: A set of the type variables. It may include this type itself.
     public func equivalentTypeVariables(bindings: TypeVariableBindings) -> Set<TypeVariable> {
         var ret = Set<TypeVariable>()
         for (tv, b) in bindings.map {
