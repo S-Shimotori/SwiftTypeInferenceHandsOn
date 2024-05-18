@@ -79,7 +79,7 @@ extension ConstraintSystem {
                 return .failure
             }
             return matchTypes(kind: kind,
-                              left: (leftType as? OptionalType)?.wrapped ?? leftType,
+                              left: leftType,
                               right: rightType.wrapped,
                               options: options)
             

@@ -292,15 +292,9 @@ extension ConstraintSystem {
         if let leftType = leftType as? PrimitiveType,
         let rightType = rightType as? PrimitiveType
         {
+            // ``PrimitiveType`` is a structure that has only ``PrimitiveType/name``.
+            // `isEqual(_:)` works exactly like `leftType.name == rightType.name`.
             return leftType.isEqual(rightType) ? .solved : .failure
-        }
-        
-        if let leftType = leftType as? OptionalType,
-           let rightType = rightType as? OptionalType {
-            return matchTypes(kind: .conversion,
-                              left: leftType.wrapped,
-                              right: rightType.wrapped,
-                              options: subOptions)
         }
         
         if let leftType = leftType as? OptionalType,
