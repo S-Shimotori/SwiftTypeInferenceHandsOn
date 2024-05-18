@@ -84,9 +84,7 @@ public final class TypeChecker {
                     vd.type = varTy
 
                     // <Q13 hint="see visitCallExpr" />
-                    if let initializer = vd.initializer {
-                        return try solution.coerce(expr: initializer, to: varTy)
-                    }
+                    return try solution.coerce(expr: expr, to: varTy)
                     return expr
             })
                 
@@ -102,7 +100,7 @@ public final class TypeChecker {
     
     /// Performs type check for a given expression.
     /// - Parameters:
-    ///   - expr:
+    ///   - expr: An expression to be checked.
     ///   - context:
     ///   - callbacks:
     /// - Returns:

@@ -7,7 +7,7 @@ public struct ExprTypeCheckCallbacks {
     /// A callback that is called after constraints are generated.
     /// - Parameters:
     ///   - ConstraintSystem:
-    ///   - Expr:
+    ///   - Expr: The expression to be checked.
     ///   - DeclContext:
     /// - Throws:
     /// - Returns:
@@ -16,7 +16,7 @@ public struct ExprTypeCheckCallbacks {
     /// - Parameters:
     ///   - ConstraintSystem:
     ///   - ConstraintSystem.Solution:
-    ///   - Expr:
+    ///   - Expr: The type checked expression.
     ///   - DeclContext:
     /// - Throws:
     /// - Returns:
@@ -25,7 +25,7 @@ public struct ExprTypeCheckCallbacks {
     /// - Parameters:
     ///   - ConstraintSystem:
     ///   - ConstraintSystem.Solution:
-    ///   - Expr:
+    ///   - Expr: The type checked expression.
     ///   - DeclContext:
     /// - Throws:
     /// - Returns:
