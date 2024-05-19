@@ -252,8 +252,15 @@ extension ConstraintSystem {
         let subOptions = decompositionOptions(options)
 
         // <Q02 hint="match arg and ret" />
-        guard matchTypes(kind: subKind, left: rightArg, right: leftArg, options: subOptions) == .solved,
-              matchTypes(kind: subKind, left: leftRet, right: rightRet, options: subOptions) == .solved else {
+        let matchArgTypes = matchTypes(kind: subKind, left: rightArg, right: leftArg, options: subOptions)
+        let matchRetTypes = matchTypes(kind: subKind, left: leftRet, right: rightRet, options: subOptions)
+        switch (matchArgTypes, matchRetTypes) {
+        case (.solved, .solved):
+            break
+        case (.ambiguous, _), (_, .ambiguous):
+            // generateConstraintsWhenAmbiguous = true
+            preconditionFailure()
+        case (.failure, _), (_, .failure):
             return .failure
         }
         

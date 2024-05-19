@@ -25,7 +25,11 @@ public final class ConstraintSystem {
         case ambiguous
     }
     
+    /// Flags that type matching and simplification.
     public struct MatchOptions {
+        /// > `TMF_GenerateConstraints` \
+        /// > Indicates that we are in a context where we should be generating constraints for any unsolvable problems. \
+        /// > ref: TMF\_GenerateConstraints at [ConstraintSystem.h](https://github.com/apple/swift/blob/main/include/swift/Sema/ConstraintSystem.h)
         public var generateConstraintsWhenAmbiguous: Bool = false
         
         public init() {}
