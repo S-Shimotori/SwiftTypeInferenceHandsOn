@@ -7,7 +7,7 @@ extension ConstraintSystem {
     ///   - leftType: A type under a constraint.
     ///   - rightType: A type that appears in a constraint.
     ///   - options:
-    /// - Returns:
+    /// - Returns: The result of matching.
     ///
     /// ref: matchTypes at [CSSimplify.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp)
     ///
@@ -81,7 +81,7 @@ extension ConstraintSystem {
                                options: options)
     }
     
-    // ref: matchTypes at CSSimplify.cpp
+    /// ref: matchTypes at [CSSimplify.cpp](https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp)
     private func matchTypesBind(typeVariable: TypeVariable,
                                 fixedType: Type) -> SolveResult
     {
@@ -101,12 +101,14 @@ extension ConstraintSystem {
         return options
     }
     
+    /// Tries to match a given fixed type with another type.
     /// - Parameters:
     ///   - kind: A kind of constraint between the given two types.
     ///   - leftType: A type under a constraint.
     ///   - rightType: A type that appears in a constraint.
     ///   - options:
-    /// - Returns:
+    /// - Returns: The result of matching.
+    /// - Precondition: Neither `leftType` nor `rightType` should be type variables.
     ///
     /// ```
     /// type1 <conv> type2
@@ -203,13 +205,13 @@ extension ConstraintSystem {
         return .solved
     }
     
-    /// Solves a given constraint between two functions.
+    /// Tries to match a given function type with another one.
     /// - Parameters:
     ///   - kind:
-    ///   - leftType: A function in the left hand side.
-    ///   - rightType: A function in the right hand side.
+    ///   - leftType: A function type under a constraint.
+    ///   - rightType: A function type that appears in a constraint.
     ///   - options: Match options.
-    /// - Returns: The result of solving.
+    /// - Returns: The result of matching.
     ///
     /// ref: matchFunctionTypes at [CSSimplify.cpp]( https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp ).
     ///
@@ -267,12 +269,12 @@ extension ConstraintSystem {
         return .solved
     }
     
-    /// Solves a given constraint between two types.
+    /// Tries deep equality matching between a given type with another one.
     /// - Parameters:
-    ///   - leftType: A type in the left hand side.
-    ///   - rightType: A type in the right hand side.
+    ///   - leftType: A type under a constraint.
+    ///   - rightType: A type that appears in a constraint.
     ///   - options: Match options.
-    /// - Returns: The result of solving.
+    /// - Returns: The result of matching.
     ///
     /// ref: matchDeepEqualityTypes at [CSSimplify.cpp]( https://github.com/apple/swift/blob/main/lib/Sema/CSSimplify.cpp ).
     ///
